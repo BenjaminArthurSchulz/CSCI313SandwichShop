@@ -10,6 +10,9 @@ from django.contrib.auth import authenticate, login, logout
 def home(request):
     return render(request, "main/home.html")
 
+def aboutUs(request):
+    return render(request, "main/aboutUs.html")
+
 def sign_up(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
