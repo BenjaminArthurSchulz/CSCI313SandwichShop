@@ -1,22 +1,69 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
+{% load static %}
 {% block title %}Home Page{% endblock %}
 {% block content %}
-<!Doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Home | BLT Sandwich Shop</title>
-    <meta name="description" content="BLT sandwich shop home page" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-  </head>
+<title>Home | BLT Sandwich Shop</title>
 
-  <body>
-    <h1>Home Page</h1>
-    <h2>Testing home page</h2>
-  </body>
-</html>
+<div>
+  <h1 style="font-size: 4rem; font-weight: bold;">BLT Sandwich Shop</h1>
+</div>
+
+<div class="feature-section" style="margin-bottom: 20px; padding: 20px; border: 1px solid #000; border-radius: 8px;">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="flex: 1;">
+      <h1>Make a sandwich built for YOU</h1>
+      <h4>Assemble YOUR sandwich YOUR way today</h4>
+      <a href="{% url 'customize_sandwich' %}" style="
+          display: inline-block;
+          padding: 20px 40px;
+          margin-top: 15px;
+          background-color: #00c1fc;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+          font-size: 2rem;
+          transition: background-color 0.3s ease;">
+        Order Now
+      </a>
+    </div>
+    <div>
+      <img id="carousel-image" src="{% static 'main/images/sandwich1.jpg' %}" alt="Sandwich" style="width: 300px; height: 300px; object-fit: cover; border-radius: 8px;">
+    </div>
+  </div>
+</div>
+
+<script>
+  const images = [
+    "{% static 'main/images/sandwich1.jpg' %}",
+    "{% static 'main/images/sandwich2.jpg' %}",
+    "{% static 'main/images/sandwich3.jpg' %}",
+    "{% static 'main/images/sandwich4.jpg' %}"
+  ];
+  
+  let currentIndex = 0;
+  const carouselImage = document.getElementById('carousel-image');
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    carouselImage.src = images[currentIndex];
+  }, 4000); 
+</script>
+
+<div>
+  <h1>Saving Money Never Tasted so Good</h1>
+  <h4>Check the lastest deals to see how much you could save on your order</h4>
+   <!-- This Button should link to the Deals page once it is completed -->
+  <a href="{% url 'customize_sandwich' %}" style="
+          display: inline-block;
+          padding: 15px 30px;
+          margin-bottom: 15px;
+          background-color: #00d100;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+          font-size: 1.5rem;
+          transition: background-color 0.3s ease;">
+        Check the latest deals
+      </a>
+</div>
 {% endblock %}

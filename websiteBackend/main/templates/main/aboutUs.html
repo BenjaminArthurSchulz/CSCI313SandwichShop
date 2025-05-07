@@ -1,23 +1,63 @@
 {% extends 'main/base.html'%}
+{% load static %}
 {% block title %}About Us{% endblock %}
 {% block content %}
-<!Doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>About Us | BLT Sandwich Shop</title>
-    <meta name="description" content="BLT sandwich shop home page" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-  </head>
+<title>About Us | BLT Sandwich Shop</title>
+<div>
+<h1 style="font-size: 4rem; font-weight: bold;">From Humble Beginnings to Great Taste</h1>
+</div>
 
-  <body>
-    <h1>About Us</h1>
-    <h2>This is a test to see if I did everything properly when it comes to forking and cloning the repo. I'll add more to the about us page</h2>
-  </body>
-</html>
+<div>
+  <img src="{% static 'main/images/city1.jpg' %}" alt="" style="width: auto; height: 350px; object-fit: cover;">
+</div>
+
+<div>
+<h1>Starting Simple</h1>
+<p style="font-size: 1.5rem;">BLT Sandwich started as a simple idea. Tired of the constant need for more present in today's society, we decided to create a place where you can just get a good sandwich, nothing complicated about it.
+  It is our mission to bring you our best food, with as little effort from you as possible. It is our philosophy that we provide quality food over having an overabundance of mediocre choices. You kow exactly what you're getting when it comes to our sandwiches, and that is perfection.
+</p>
+<a href="{% url 'customize_sandwich' %}" style="
+          display: inline-block;
+          padding: 10px 20px;
+          margin-bottom: 15px;
+          background-color: #00c1fc;
+          color: white;
+          text-decoration: none;
+          border-radius: 5px;
+          font-size: 1rem;
+          transition: background-color 0.3s ease;">
+        Order Now
+      </a>
+</div>
+
+<div class="feature-section" style="
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    background-color: black;
+    color: white;
+">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="flex: 1; padding-right: 20px;">
+      <h1 style="margin-top: 0;">Constantly Expanding</h1>
+      <p>Our simple store is growing larger every day, with new locations popping up all around the Midwest.</p>
+      <a href="{% url 'customize_sandwich' %}" style="
+          display: inline-block;
+          padding: 10px 60px;
+          background-color: #ffffff;
+          color: rgb(0, 0, 0);
+          text-decoration: none;
+          border-radius: 5px;
+          font-size: 1rem;
+          transition: background-color 0.3s ease;">
+        Find a Store Near You
+      </a>
+    </div>
+    <div>
+      <img src="{% static 'main/images/shop1.jpg' %}" alt="Shop" style="width: 300px; height: auto; object-fit: cover; border-radius: 8px;">
+    </div>
+  </div>
+</div>
+
 {% endblock %}
