@@ -1,0 +1,150 @@
+{% extends "main/base.html" %}
+
+
+
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+
+{% block title %}Build Your Sandwich{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="mb-4">Customize Your Sandwich</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Choose Your Bread</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    {% for bread in breads %}
+                    <label>
+                        <input type="radio" name="bread" value="{{ bread.id }}" required {% if forloop.first %}checked{% endif %}>
+                        {{ bread.name }}
+                        <span class="badge bg-secondary price-badge">${{ bread.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Select Proteins</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    {% for protein in proteins %}
+                    <label>
+                        <input type="checkbox" name="proteins" value="{{ protein.id }}">
+                        {{ protein.name }}
+                        {% if protein.vegetarian %}<span class="badge bg-success">Veg</span>{% endif %}
+                        <span class="badge bg-secondary price-badge">${{ protein.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Select Cheeses</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    {% for cheese in cheeses %}
+                    <label>
+                        <input type="checkbox" name="cheeses" value="{{ cheese.id }}">
+                        {{ cheese.name }}
+                        <span class="badge bg-secondary price-badge">${{ cheese.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Select Vegetables</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    {% for vegetable in vegetables %}
+                    <label>
+                        <input type="checkbox" name="vegetables" value="{{ vegetable.id }}">
+                        {{ vegetable.name }}
+                        <span class="badge bg-secondary price-badge">${{ vegetable.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Select Condiments</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    {% for condiment in condiments %}
+                    <label>
+                        <input type="checkbox" name="condiments" value="{{ condiment.id }}">
+                        {{ condiment.name }}
+                        <span class="badge bg-secondary price-badge">${{ condiment.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Add Extras</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    {% for extra in extras %}
+                    <label>
+                        <input type="checkbox" name="extras" value="{{ extra.id }}">
+                        {{ extra.name }}
+                        <span class="badge bg-secondary price-badge">${{ extra.price }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Preparation</h3>
+                </div>
+                <div class="card-body sandwich-options">
+                    <label>
+                        <input type="checkbox" name="toasted" id="id_toasted">
+                        Toast my sandwich
+                    </label>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card sticky-top" style="top: 2rem;">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">Your Sandwich</h3>
+            </div>
+            <div class="card-body">
+                <div id="sandwich-preview">
+                    <p class="text-center text-muted">Select ingredients to build your sandwich</p>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <h5>Estimated Price:</h5>
+                    <h5 id="total-price">$0.00</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

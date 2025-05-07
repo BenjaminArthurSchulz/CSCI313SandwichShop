@@ -1,0 +1,250 @@
+[
+  {
+    "model": "sandwichCustomization.bread",
+    "pk": 1,
+    "fields": {
+      "name": "White",
+      "price": "1.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.bread",
+    "pk": 2,
+    "fields": {
+      "name": "Wheat",
+      "price": "1.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.bread",
+    "pk": 3,
+    "fields": {
+      "name": "Sourdough",
+      "price": "2.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.bread",
+    "pk": 4,
+    "fields": {
+      "name": "Rye",
+      "price": "2.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.bread",
+    "pk": 5,
+    "fields": {
+      "name": "Ciabatta",
+      "price": "2.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.protein",
+    "pk": 1,
+    "fields": {
+      "name": "Turkey",
+      "price": "3.00",
+      "vegetarian": false,
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.protein",
+    "pk": 2,
+    "fields": {
+      "name": "Ham",
+      "price": "2.50",
+      "vegetarian": false,
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.protein",
+    "pk": 3,
+    "fields": {
+      "name": "Roast Beef",
+      "price": "3.50",
+      "vegetarian": false,
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.protein",
+    "pk": 4,
+    "fields": {
+      "name": "Tuna Salad",
+      "price": "3.00",
+      "vegetarian": false,
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.protein",
+    "pk": 5,
+    "fields": {
+      "name": "Veggie Patty",
+      "price": "3.00",
+      "vegetarian": true,
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.cheese",
+    "pk": 1,
+    "fields": {
+      "name": "American",
+      "price": "1.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.cheese",
+    "pk": 2,
+    "fields": {
+      "name": "Swiss",
+      "price": "1.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.cheese",
+    "pk": 3,
+    "fields": {
+      "name": "Cheddar",
+      "price": "1.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.cheese",
+    "pk": 4,
+    "fields": {
+      "name": "Provolone",
+      "price": "1.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.vegetable",
+    "pk": 1,
+    "fields": {
+      "name": "Lettuce",
+      "price": "0.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.vegetable",
+    "pk": 2,
+    "fields": {
+      "name": "Tomato",
+      "price": "0.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.vegetable",
+    "pk": 3,
+    "fields": {
+      "name": "Onion",
+      "price": "0.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.vegetable",
+    "pk": 4,
+    "fields": {
+      "name": "Cucumber",
+      "price": "0.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.vegetable",
+    "pk": 5,
+    "fields": {
+      "name": "Bell Pepper",
+      "price": "0.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.condiment",
+    "pk": 1,
+    "fields": {
+      "name": "Mayo",
+      "price": "0.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.condiment",
+    "pk": 2,
+    "fields": {
+      "name": "Mustard",
+      "price": "0.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.condiment",
+    "pk": 3,
+    "fields": {
+      "name": "Ranch",
+      "price": "0.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.condiment",
+    "pk": 4,
+    "fields": {
+      "name": "Italian Dressing",
+      "price": "0.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.extra",
+    "pk": 1,
+    "fields": {
+      "name": "Avocado",
+      "price": "1.50",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.extra",
+    "pk": 2,
+    "fields": {
+      "name": "Bacon",
+      "price": "2.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.extra",
+    "pk": 3,
+    "fields": {
+      "name": "Double Meat",
+      "price": "3.00",
+      "available": true
+    }
+  },
+  {
+    "model": "sandwichCustomization.extra",
+    "pk": 4,
+    "fields": {
+      "name": "Double Cheese",
+      "price": "1.50",
+      "available": true
+    }
+  }
+]
