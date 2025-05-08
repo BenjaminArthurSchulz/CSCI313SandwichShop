@@ -7,8 +7,6 @@ from .forms import RegisterForm
 from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
-
-
 def home(request):
     return render(request, "main/home.html")
 
@@ -35,6 +33,16 @@ def LogOut(request):
 
 def about_us(request):
     return render(request, "main/aboutUs.html")
+
+def locator(request):
+    stores = [
+        {"name": "BLT Sandwich Shop, Fargo", "address": "3220 39th St S, Fargo, ND"},
+        {"name": "BLT Sandwich Shop, Jamestown", "address": "1921 8th Ave SW, Jamestown, ND"},
+        {"name": "BLT Sandwich Shop, Detroit Lakes", "address": "1302 Washington Ave, Detroit Lakes, MN"},
+        {"name": "BLT Sandwich Shop, Bemidji", "address": "1008 Paul Bunyan Dr NW, Bemidji, MN"},
+    ]
+    return render(request, 'main/locator.html', {'stores': stores})
+
 
 
 # Checkout views
