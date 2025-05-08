@@ -17,13 +17,11 @@ class RegisterForm(UserCreationForm):
         user = super().save(commit=commit)
         
         if commit:
-            # Try to get the profile, if it doesn't exist, create it
             try:
                 user_profile = UserProfile.objects.get(user=user)
             except UserProfile.DoesNotExist:
                 user_profile = UserProfile.objects.create(user=user)
             
-            # Save the profile fields from the form
             user_profile.phone_number = self.cleaned_data.get('phone_number', '')
             user_profile.address = self.cleaned_data.get('address', '')
             user_profile.save()

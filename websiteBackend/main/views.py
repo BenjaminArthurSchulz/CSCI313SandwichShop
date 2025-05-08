@@ -33,6 +33,9 @@ def LogOut(request):
     logout(request)
     return redirect("/login/")
 
+def about_us(request):
+    return render(request, "main/aboutUs.html")
+
 
 # Checkout views
 @login_required

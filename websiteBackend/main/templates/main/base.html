@@ -38,7 +38,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
-                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'customize_sandwich' %}">Customize Sandwich</a>
+                    </li>
                     <li class="nav-item">
                     </li>
                     <li class="nav-item" >
@@ -50,6 +52,7 @@
                     <li class="nav-item">
                         <a  class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
+                    
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
@@ -84,6 +87,7 @@
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'about-us' %}">About Us</a></li>
                         
                     </ul>
                 </div>
