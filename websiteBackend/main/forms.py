@@ -30,6 +30,15 @@ class RegisterForm(UserCreationForm):
             
         return user
 
+# Checkout form
+
+class CheckoutForm(forms.Form):
+    address = forms.CharField(max_length=255, widget=forms.Textarea(attrs={'rows': 3}))
+    payment_method = forms.ChoiceField(
+        choices=[('credit_card', 'Credit Card'), ('paypal', 'PayPal')],
+        widget=forms.RadioSelect
+    )
+
 
 
 
