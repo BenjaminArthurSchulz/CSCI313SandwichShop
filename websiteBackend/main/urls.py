@@ -2,6 +2,7 @@ import django
 from django.urls import include, path
 from . import views
 
+# Registratiin URLs
 urlpatterns = [
     path("logout/", views.LogOut, name="logout"),
     path("", views.home, name="home"),

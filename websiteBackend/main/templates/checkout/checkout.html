@@ -1,6 +1,21 @@
 <h1>Checkout</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <h2>Apply Coupon</h2>
+    {{ coupon_form.as_p }}
+    <button type="submit" name="apply_coupon">Apply Coupon</button>
+</form>
+
+<h2>Order Summary</h2>
+<p>Total Price: ${{ total_price }}</p>
+{% if discount %}
+<p>Discount: -${{ discount }}</p>
+{% endif %}
+<p><strong>Final Price: ${{ total_price }}</strong></p>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Place Order</button>
+    <button type="submit" name="checkout">Place Order</button>
 </form>

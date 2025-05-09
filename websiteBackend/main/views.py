@@ -39,54 +39,61 @@ def about_us(request):
 
 # Checkout views
 @login_required
-def cart_view(request):
-    if 'cart' not in request.session:
-        request.session['cart'] = {}
-    cart = request.session['cart']
-    products = Product.objects.filter(id__in=cart.keys())
-    cart_items = []
-    total_price = 0
-
-    for product in products:
-        quantity = cart[str(product.id)]
-        subtotal = product.price * quantity
-        total_price += subtotal
-        cart_items.append({'product': product, 'quantity': quantity, 'subtotal': subtotal})
-
-    return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
-
-@login_required
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    cart = request.session.get('cart', {})
-    cart[str(product.id)] = cart.get(str(product.id), 0) + 1
-    request.session['cart'] = cart
-    return redirect('cart')
-
-@login_required
 def checkout_view(request):
+    cart = request.session.get('cart', {})
+    if not cart:
+        return redirect('cart')
+
+    total_price = 0
+    for product_id, quantity in cart.items():
+        product = Product.objects.get(id=product_id)
+        total_price += product.price * quantity
+
+    discount = 0
     if request.method == 'POST':
-        form = CheckoutForm(request.POST)
-        if form.is_valid():
-            cart = request.session.get('cart', {})
-            if not cart:
-                return redirect('cart')
+        if 'apply_coupon' in request.POST:
+            coupon_form = CouponForm(request.POST)
+            if coupon_form.is_valid():
+                try:
+                    coupon = Coupon.objects.get(code=coupon_form.cleaned_data['code'])
+                    if coupon.is_valid():
+                        discount = coupon.discount_amount
+                        request.session['coupon'] = coupon.code
+                    else:
+                        coupon_form.add_error('code', 'Invalid or expired coupon.')
+                except Coupon.DoesNotExist:
+                    coupon_form.add_error('code', 'Coupon does not exist.')
+        elif 'checkout' in request.POST:
+            form = CheckoutForm(request.POST)
+            if form.is_valid():
+                coupon_code = request.session.get('coupon')
+                if coupon_code:
+                    try:
+                        coupon = Coupon.objects.get(code=coupon_code)
+                        if coupon.is_valid():
+                            discount = coupon.discount_amount
+                        else:
+                            del request.session['coupon']
+                    except Coupon.DoesNotExist:
+                        del request.session['coupon']
 
-            order = Order.objects.create(user=request.user, total_price=0)
-            total_price = 0
+                order = Order.objects.create(user=request.user, total_price=total_price - discount)
+                for product_id, quantity in cart.items():
+                    product = Product.objects.get(id=product_id)
+                    OrderItem.objects.create(order=order, product=product, quantity=quantity)
 
-            for product_id, quantity in cart.items():
-                product = Product.objects.get(id=product_id)
-                subtotal = product.price * quantity
-                total_price += subtotal
-                OrderItem.objects.create(order=order, product=product, quantity=quantity)
+                request.session.pop('cart', None)
+                request.session.pop('coupon', None)
+                return render(request, 'order_confirmation.html', {'order': order})
 
-            order.total_price = total_price
-            order.save()
-
-            request.session.pop('cart', None)  # Clear the cart
-            return render(request, 'order_confirmation.html', {'order': order})
     else:
         form = CheckoutForm()
+        coupon_form = CouponForm()
 
-    return render(request, 'checkout.html', {'form': form})
+    total_price -= discount
+    return render(request, 'checkout.html', {
+        'form': form,
+        'coupon_form': coupon_form,
+        'total_price': total_price,
+        'discount': discount
+    })

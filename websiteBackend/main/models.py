@@ -44,3 +44,18 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
+
+
+# Coupon models
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=50, unique=True)
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True)
+    expiration_date = models.DateTimeField()
+
+    def is_valid(self):
+        return self.is_active and self.expiration_date > now()
+
+    def __str__(self):
+        return self.code

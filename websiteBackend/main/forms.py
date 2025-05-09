@@ -38,5 +38,6 @@ class CheckoutForm(forms.Form):
     )
 
 
-
-
+# Coupon form
+class CouponForm(forms.Form):
+    code = FORMS.CharField(max_length=50, required=True, label='Coupon Code')
