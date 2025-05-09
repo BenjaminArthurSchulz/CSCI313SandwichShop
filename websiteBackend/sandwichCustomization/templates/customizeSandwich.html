@@ -15,7 +15,7 @@
     <div class="col-md-8">
         <h2 class="mb-4">Customize Your Sandwich</h2>
         
-        <form method="post">
+        <form method="post" action="{% url 'add_to_cart' %}">
             {% csrf_token %}
             
             <div class="card mb-4">
@@ -146,5 +146,52 @@
     </div>
 </div>
 
+<script>
+    // Get references to the form elements and preview section
+    const previewSection = document.getElementById('sandwich-preview');
+    const totalPrice = document.getElementById('total-price');
 
+    // Function to update sandwich preview dynamically
+    function updatePreview() {
+        const bread = document.querySelector('input[name="bread"]:checked').nextElementSibling.innerText;
+        const proteins = Array.from(document.querySelectorAll('input[name="proteins"]:checked')).map(input => input.nextElementSibling.innerText);
+        const cheeses = Array.from(document.querySelectorAll('input[name="cheeses"]:checked')).map(input => input.nextElementSibling.innerText);
+        const vegetables = Array.from(document.querySelectorAll('input[name="vegetables"]:checked')).map(input => input.nextElementSibling.innerText);
+        const condiments = Array.from(document.querySelectorAll('input[name="condiments"]:checked')).map(input => input.nextElementSibling.innerText);
+        const extras = Array.from(document.querySelectorAll('input[name="extras"]:checked')).map(input => input.nextElementSibling.innerText);
+        const toasted = document.querySelector('input[name="toasted"]:checked') ? "Toasted" : "";
+
+        // Update the preview area
+        previewSection.innerHTML = `
+            <ul>
+                <li><strong>Bread:</strong> ${bread}</li>
+                ${proteins.map(p => `<li><strong>Protein:</strong> ${p}</li>`).join('')}
+                ${cheeses.map(c => `<li><strong>Cheese:</strong> ${c}</li>`).join('')}
+                ${vegetables.map(v => `<li><strong>Vegetable:</strong> ${v}</li>`).join('')}
+                ${condiments.map(c => `<li><strong>Condiment:</strong> ${c}</li>`).join('')}
+                ${extras.map(e => `<li><strong>Extra:</strong> ${e}</li>`).join('')}
+                ${toasted ? `<li><strong>Preparation:</strong> Toasted</li>` : ""}
+            </ul>
+        `;
+
+        // Update the price based on selected ingredients
+        let price = 0;
+        price += parseFloat(document.querySelector('input[name="bread"]:checked').nextElementSibling.querySelector('.price-badge').innerText.slice(1));
+        price += Array.from(document.querySelectorAll('input[name="proteins"]:checked')).reduce((acc, input) => acc + parseFloat(input.nextElementSibling.querySelector('.price-badge').innerText.slice(1)), 0);
+        price += Array.from(document.querySelectorAll('input[name="cheeses"]:checked')).reduce((acc, input) => acc + parseFloat(input.nextElementSibling.querySelector('.price-badge').innerText.slice(1)), 0);
+        price += Array.from(document.querySelectorAll('input[name="vegetables"]:checked')).reduce((acc, input) => acc + parseFloat(input.nextElementSibling.querySelector('.price-badge').innerText.slice(1)), 0);
+        price += Array.from(document.querySelectorAll('input[name="condiments"]:checked')).reduce((acc, input) => acc + parseFloat(input.nextElementSibling.querySelector('.price-badge').innerText.slice(1)), 0);
+        price += Array.from(document.querySelectorAll('input[name="extras"]:checked')).reduce((acc, input) => acc + parseFloat(input.nextElementSibling.querySelector('.price-badge').innerText.slice(1)), 0);
+
+        totalPrice.innerText = `$${price.toFixed(2)}`;
+    }
+
+    // Attach event listeners to update preview when the user selects options
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('change', updatePreview);
+    });
+
+    // Initial preview update
+    updatePreview();
+</script>
 {% endblock %}

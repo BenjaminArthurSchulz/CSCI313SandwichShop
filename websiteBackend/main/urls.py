@@ -1,6 +1,7 @@
 import django
 from django.urls import path, include
 from . import views
+from .views import clear_cart
 
 # Registratiin URLs
 urlpatterns = [
@@ -14,6 +15,8 @@ urlpatterns = [
     
     # Checkout routes
     path('cart/', views.cart_view, name='cart'),
-    path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
+    path('add-to-cart/', views.add_to_cart, name='add_to_cart'),
     path('checkout/', views.checkout_view, name='checkout'),
+
+    path('clear-cart/', clear_cart, name='clear_cart'),
 ]

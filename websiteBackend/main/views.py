@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Product, Order, OrderItem
+from sandwichCustomization.models import Bread, Protein, Cheese, Vegetable, Condiment, Extra
 from .forms import CheckoutForm
 from main.models import UserProfile
 from .forms import RegisterForm
@@ -46,6 +47,98 @@ def locator(request):
 
 
 # Checkout views
+def cart_view(request):
+    cart = request.session.get('cart', {})
+    if not isinstance(cart, dict):
+        cart = {}
+
+    cart_items = []
+    total_price = 0
+
+    for cart_key, item in cart.items():
+        subtotal = item['price'] * item['quantity']
+        total_price += subtotal
+        cart_items.append({
+            'description': item['description'],
+            'price': item['price'],
+            'quantity': item['quantity'],
+            'subtotal': subtotal,
+        })
+
+    return render(request, 'checkout/cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    })
+
+@login_required
+def add_to_cart(request):
+    if request.method == 'POST':
+        # Collect selected options
+        bread_id = request.POST.get('bread')
+        protein_ids = request.POST.getlist('proteins')
+        cheese_ids = request.POST.getlist('cheeses')
+        vegetable_ids = request.POST.getlist('vegetables')
+        condiment_ids = request.POST.getlist('condiments')
+        extra_ids = request.POST.getlist('extras')
+        toasted = 'toasted' in request.POST
+
+        # Initialize cart item details
+        sandwich_desc = []
+        total_price = 0
+
+        if bread_id:
+            bread = Bread.objects.get(id=bread_id)
+            sandwich_desc.append(f"Bread: {bread.name}")
+            total_price += bread.price
+
+        for pid in protein_ids:
+            protein = Protein.objects.get(id=pid)
+            sandwich_desc.append(f"Protein: {protein.name}")
+            total_price += protein.price
+
+        for cid in cheese_ids:
+            cheese = Cheese.objects.get(id=cid)
+            sandwich_desc.append(f"Cheese: {cheese.name}")
+            total_price += cheese.price
+
+        for vid in vegetable_ids:
+            vegetable = Vegetable.objects.get(id=vid)
+            sandwich_desc.append(f"Vegetable: {vegetable.name}")
+            total_price += vegetable.price
+
+        for condid in condiment_ids:
+            condiment = Condiment.objects.get(id=condid)
+            sandwich_desc.append(f"Condiment: {condiment.name}")
+            total_price += condiment.price
+
+        for exid in extra_ids:
+            extra = Extra.objects.get(id=exid)
+            sandwich_desc.append(f"Extra: {extra.name}")
+            total_price += extra.price
+
+        if toasted:
+            sandwich_desc.append("Toasted")
+
+        # Store in cart (session)
+        cart = request.session.get('cart', {})
+        if not isinstance(cart, dict):
+            cart = {}  # 💥 Ensure it's a dict
+
+        from uuid import uuid4
+        cart_key = str(uuid4())
+
+        cart[cart_key] = {
+            'description': sandwich_desc,
+            'price': float(total_price),
+            'quantity': 1,
+        }
+
+        request.session['cart'] = cart
+
+        return redirect('cart')
+
+    return redirect('customize_sandwich')
+
 @login_required
 def checkout_view(request):
     cart = request.session.get('cart', {})
@@ -53,9 +146,8 @@ def checkout_view(request):
         return redirect('cart')
 
     total_price = 0
-    for product_id, quantity in cart.items():
-        product = Product.objects.get(id=product_id)
-        total_price += product.price * quantity
+    for cart_key, item in cart.items():
+        total_price += item['price'] * item['quantity']
 
     discount = 0
     if request.method == 'POST':
@@ -85,10 +177,18 @@ def checkout_view(request):
                     except Coupon.DoesNotExist:
                         del request.session['coupon']
 
+                # Create the order with the total price
                 order = Order.objects.create(user=request.user, total_price=total_price - discount)
-                for product_id, quantity in cart.items():
-                    product = Product.objects.get(id=product_id)
-                    OrderItem.objects.create(order=order, product=product, quantity=quantity)
+
+                # Save each custom sandwich as an OrderItem (adjust as needed)
+                for cart_key, item in cart.items():
+                    # Here, we can create OrderItem with description
+                    OrderItem.objects.create(
+                        order=order,
+                        description="\n".join(item['description']),
+                        price=item['price'],
+                        quantity=item['quantity']
+                    )
 
                 request.session.pop('cart', None)
                 request.session.pop('coupon', None)
@@ -105,3 +205,8 @@ def checkout_view(request):
         'total_price': total_price,
         'discount': discount
     })
+
+def clear_cart(request):
+    # Clear the cart from the session
+    request.session.pop('cart', None)  # This removes the cart from the session
+    return redirect('cart')  # Redirect to the cart view or another page
