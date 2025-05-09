@@ -1,5 +1,5 @@
 import django
-from django.urls import include, path
+from django.urls import path, include
 from . import views
 
 # Registratiin URLs
@@ -8,14 +8,11 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("home", views.home, name="home"),
     path("sign-up", views.sign_up, name="sign-up"),
+    path("about-us", views.about_us, name="about-us"),
+    path("locator", views.locator, name="locator"),
     path("", include("django.contrib.auth.urls")),
-    path("about-us", views.about_us, name="about-us"),  
-
-
-]
-
-# Checkout URLs
-urlpatterns = [
+    
+    # Checkout routes
     path('cart/', views.cart_view, name='cart'),
     path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
     path('checkout/', views.checkout_view, name='checkout'),

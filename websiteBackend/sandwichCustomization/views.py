@@ -7,7 +7,7 @@ from .models import Bread, Protein, Cheese, Vegetable, Condiment, Extra, Sandwic
 from .forms import SandwichForm
 # Create your views here.
 def home(request):
-    return render(request, 'orders/home.html')
+    return render(request, 'main/home.html')
 
 
 class SandwichCreateView(CreateView):
