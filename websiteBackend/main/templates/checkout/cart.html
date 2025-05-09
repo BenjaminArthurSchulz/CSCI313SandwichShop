@@ -1,5 +1,11 @@
+{% extends "main/base.html" %}
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<title>Cart | BLT Sandwich Shop</title>
 <h1>Your Cart</h1>
-<table>
+
+<table class="table">
     <thead>
         <tr>
             <th>Product</th>
@@ -10,12 +16,38 @@
     <tbody>
         {% for item in cart_items %}
         <tr>
-            <td>{{ item.product.name }}</td>
+            <td>
+                <ul>
+                    <li><strong>Bread:</strong> {{ item.product.bread.name }}</li>
+                    {% for protein in item.product.proteins.all %}
+                        <li><strong>Protein:</strong> {{ protein.name }}</li>
+                    {% endfor %}
+                    {% for cheese in item.product.cheeses.all %}
+                        <li><strong>Cheese:</strong> {{ cheese.name }}</li>
+                    {% endfor %}
+                    {% for vegetable in item.product.vegetables.all %}
+                        <li><strong>Vegetable:</strong> {{ vegetable.name }}</li>
+                    {% endfor %}
+                    {% for condiment in item.product.condiments.all %}
+                        <li><strong>Condiment:</strong> {{ condiment.name }}</li>
+                    {% endfor %}
+                    {% for extra in item.product.extras.all %}
+                        <li><strong>Extra:</strong> {{ extra.name }}</li>
+                    {% endfor %}
+                    {% if item.product.toasted %}
+                        <li><strong>Preparation:</strong> Toasted</li>
+                    {% endif %}
+                </ul>
+            </td>
             <td>{{ item.quantity }}</td>
             <td>${{ item.subtotal }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
 <h3>Total: ${{ total_price }}</h3>
-<a href="{% url 'checkout' %}">Proceed to Checkout</a>
+
+<a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+<a href="{% url 'clear_cart' %}" class="btn btn-primary">Empty Cart</a>
+{% endblock %}
